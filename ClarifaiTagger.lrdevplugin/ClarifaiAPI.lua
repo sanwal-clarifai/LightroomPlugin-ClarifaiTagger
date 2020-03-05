@@ -10,8 +10,7 @@ local logger = LrLogger('ClarifaiAPI')
 logger:enable('print')
 
 
-local tagAPIURL   = 'https://api.clarifai.com/v2/models/aaa03c23b3724a16a56b629203edc62c/outputs'
-
+local baseURL = 'https://api.clarifai.com/v2/models/'
 --------------------------------
 
 ClarifaiAPI = {}
@@ -23,7 +22,12 @@ function ClarifaiAPI.getTags_impl(photos, thumbnailPaths)
        { field = 'Content-Type', value = 'application/json' },
       --  { field = 'Accept-Language', value = prefs.keywordLanguage },
     };
-
+    
+    local modelName = prefs.modelName
+    modelId = ClarifaiAPI.modelNameToModelID(modelName)
+    
+    local redictionURL = baseURL .. modelId .. "/outputs"
+    
     local payload_prefix = '{"inputs": ['
     local payload_middle =  ''
     local payload_postfix = ']}'
@@ -34,7 +38,7 @@ function ClarifaiAPI.getTags_impl(photos, thumbnailPaths)
     payload_middle = payload_middle:sub(1, -2)
     local payload = payload_prefix .. payload_middle .. payload_postfix;
     logger:info(' get tags START');
-    local body, reshdrs = LrHttp.post(tagAPIURL, payload, headers, "POST", 50, string.len(payload))
+    local body, reshdrs = LrHttp.post(redictionURL, payload, headers, "POST", 50, string.len(payload))
     -- logger:info(' get tags body: ', body);
 
    local json = JSON:decode(body);
@@ -42,18 +46,25 @@ function ClarifaiAPI.getTags_impl(photos, thumbnailPaths)
 end
 
 function ClarifaiAPI.getTags(photos, thumbnailPaths)
-  --  if prefs.accessToken == nil then
-  --     ClarifaiAPI.getToken();
-  --  end
 
    local json, status = ClarifaiAPI.getTags_impl(photos, thumbnailPaths);
-  --  if status == 401 then
-  --     ClarifaiAPI.getToken();
-  --     json, status = ClarifaiAPI.getTags_impl(photos, thumbnailPaths);
-  --  end
 
    return json
 end
 
+function ClarifaiAPI.modelNameToModelID(name)
+  local modelNameToID = {
+    ["general"]="aaa03c23b3724a16a56b629203edc62c",
+    ["food"]="bd367be194cf45149e75f01d59f77ba7",
+    ["color"]="eeed0b6733a644cea07cf4c60f87ebb7",
+    ["travel"]="eee28c313d69466f836ab83287a54ed9",
+    ["wedding"]="c386b7a870114f4a87477c0824499348",
+  }
+  local modelId = modelNameToID[name]
+  if (modelId == nil) then
+    modelId = "aaa03c23b3724a16a56b629203edc62c" -- use general as default
+  end
+  return modelId
+end
 
 return ClarifaiAPI

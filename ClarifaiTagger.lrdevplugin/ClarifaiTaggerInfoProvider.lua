@@ -12,14 +12,14 @@ function ClarifaiTaggerInfoProvider.sectionsForTopOfDialog(viewFactory, property
 
    return {
       {
-         title = LOC '$$$/ClarifaiTagger/Settings/AuthHeader=Authentication Settings',
+         title = LOC '$$$/ClarifaiTagger/Settings/AuthHeader=Clarifai Settings',
 
          viewFactory:row {
             spacing = viewFactory:label_spacing(),
 
             viewFactory:static_text {
-               tooltip = "Copy from your Clarifai Account https://developer.clarifai.com/account/api-keys.",
-               title = LOC '$$$/ClarifaiTagger/Settings/Heading=You need to create an account on clarifai.ai and create a new API key.',
+               tooltip = "Copy from your Clarifai Account https://portal.clarifai.com/settings/authentication.",
+               title = LOC '$$$/ClarifaiTagger/Settings/Heading=You need to create an account on clarifai.com and create a PAT.',
                alignment = 'right',
                -- width = share 'title_width',
             },
@@ -29,8 +29,8 @@ function ClarifaiTaggerInfoProvider.sectionsForTopOfDialog(viewFactory, property
             spacing = viewFactory:label_spacing(),
 
             viewFactory:static_text {
-               tooltip = "Copy from your Clarifai Account https://developer.clarifai.com/account/api-keys.",
-               title = LOC '$$$/ClarifaiTagger/Settings/ClientId=API KEY:',
+               tooltip = "Copy from your Clarifai Account https://portal.clarifai.com/settings/authentication.",
+               title = LOC '$$$/ClarifaiTagger/Settings/ClientId=Personal Access Token:',
                alignment = 'right',
                -- width = share 'title_width',
             },
@@ -44,43 +44,25 @@ function ClarifaiTaggerInfoProvider.sectionsForTopOfDialog(viewFactory, property
             },
          },
 
-        --  viewFactory:row {
-        --     spacing = viewFactory:label_spacing(),
-         --
-        --     viewFactory:static_text {
-        --        tooltip = "Copy from the setup page on Clarifai.com for your Clarifai application.",
-        --        title = LOC '$$$/ClarifaiTagger/Settings/clientSecret=Client Secret:',
-        --        alignment = 'right',
-        --        -- width = share 'title_width',
-        --     },
-         --
-        --     viewFactory:edit_field {
-        --        tooltip = "Copy from the setup page on Clarifai.com for your Clarifai application.",
-        --        fill_horizonal = 1,
-        --        width_in_chars = 35,
-        --        alignment = 'left',
-        --        value = bind { key = 'clientSecret', object = prefs },
-        --     },
-        --  },
+         viewFactory:row {
+            spacing = viewFactory:label_spacing(),
 
-        --  viewFactory:row {
-        --     spacing = viewFactory:label_spacing(),
-         --
-        --     viewFactory:static_text {
-        --        title = LOC '$$$/ClarifaiTagger/Settings/AccessToken=Access Token:',
-        --        alignment = 'right',
-        --        -- width = share 'title_width',
-        --     },
-         --
-        --     viewFactory:edit_field {
-        --        fill_horizonal = 1,
-        --        width_in_chars = 35,
-        --        alignment = 'left',
-        --        enabled = false,
-        --        value = bind { key = 'accessToken', object = prefs },
-        --     },
-        --  },
-         -- viewFactory:separator { fill_horizontal = 1 },
+            viewFactory:static_text {
+               tooltip = "Copy model ID from clarifai",
+               title = LOC '$$$/ClarifaiTagger/Settings/ModelName=Label Category:',
+               alignment = 'right',
+            },
+            viewFactory:popup_menu {
+               items = {
+                  { value = 'general', title = 'General: Recognizes over 11,000 different concepts including objects, themes, moods, and more'},
+                  { value = 'food'   , title = 'Food: Recognizes more than 1,000 food items in images down to the ingredient level'},
+                  { value = 'travel' , title = 'Travel: Recognizes specific features of residential, hotel, and travel-related properties'},
+                  { value = 'color'  , title = 'Color: Recognizes rensity values for dominant colors present in images'},
+                  { value = 'wedding', title = 'Wedding: Recognizes over 400 concepts related to weddings including bride, groom, flowers, and more'},
+               },
+               value = bind { key = 'modelName', object = prefs },
+            },
+         },
       },
 
       {
