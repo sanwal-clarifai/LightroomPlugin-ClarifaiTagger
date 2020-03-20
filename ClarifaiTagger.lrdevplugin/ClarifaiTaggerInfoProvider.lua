@@ -19,7 +19,7 @@ function ClarifaiTaggerInfoProvider.sectionsForTopOfDialog(viewFactory, property
 
             viewFactory:static_text {
                tooltip = "Copy from your Clarifai Account https://portal.clarifai.com/settings/authentication.",
-               title = LOC '$$$/ClarifaiTagger/Settings/Heading=You need to create an account on clarifai.com and create a PAT.',
+               title = LOC '$$$/ClarifaiTagger/Settings/Heading=You need to create an application on clarifai.com.',
                alignment = 'right',
                -- width = share 'title_width',
             },
@@ -30,7 +30,7 @@ function ClarifaiTaggerInfoProvider.sectionsForTopOfDialog(viewFactory, property
 
             viewFactory:static_text {
                tooltip = "Copy from your Clarifai Account https://portal.clarifai.com/settings/authentication.",
-               title = LOC '$$$/ClarifaiTagger/Settings/ClientId=Personal Access Token:',
+               title = LOC '$$$/ClarifaiTagger/Settings/ClientId=API Key:',
                alignment = 'right',
                -- width = share 'title_width',
             },
